@@ -1,12 +1,16 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const { fork } = require('child_process')
 const path = require('path')
+const connectDB = require('./config/db')
 const crawlerPath = path.join(__dirname, 'task', 'crawler')
 const crawlerWorker = fork(crawlerPath)
 crawlerWorker.on('message', msg => console.log(msg.data))
 const app = express();
+// Connect Database
+// connectDB();
+// app.use(express.json())
+// // Define Routes
+// app.use('/api/movie', require('./routes/movie'));
 
-app.use(bodyParser.json());
-
-app.listen(3001, () => console.log('server started'));
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => console.log('server started'));
