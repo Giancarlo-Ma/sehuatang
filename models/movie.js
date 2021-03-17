@@ -9,6 +9,7 @@ const movieSchema = new Schema({
 	magnet: String,
 	size: String,
   date: Date,
+  section: String
 });
 
 module.exports = mongoose.model('movie', movieSchema);

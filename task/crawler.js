@@ -24,7 +24,7 @@ const scrollToBottom = require("scroll-to-bottomjs");
     }]
    */
   const secondLinks = await Promise.all(firstLinks.map(l => getSecondLinks(website, l, browser, '[id^="normalthread"]', 1)))
-  const thirdLinks = await Promise.all(secondLinks.flat().map(item => getThirdLinks(item.href, browser, '[id^="postmessage_"]')))
+  const thirdLinks = await Promise.all(secondLinks.flat().map(item => getThirdLinks(item.href, browser, '[id^="postmessage_"]', item.section)))
   process.send({ type: 'secondLinks', data: thirdLinks })
   await browser.close();
 })()
@@ -68,7 +68,7 @@ const getSecondLinks = async (website, link, browser, selector, pageCount) => {
   return links
 }
 
-const getThirdLinks = async (link, browser, selector) => {
+const getThirdLinks = async (link, browser, selector, section) => {
   const page = await browser.newPage();
   await page.goto(link, { "waitUntil": "networkidle0" })
   await page.evaluate(scrollToBottom);
@@ -76,7 +76,7 @@ const getThirdLinks = async (link, browser, selector) => {
   // await autoScroll(page);
   // [id^="postmessage_"]第一个post
   await page.waitForSelector(selector);
-  const movie = await page.evaluate(selector => {
+  const movie = await page.evaluate((selector, section) => {
     const findItem = (lineArr, item) => lineArr.find(line => line.startsWith(item)).slice(item.length)
     const post = document.querySelector(selector)
     const postContent = post.textContent
@@ -99,9 +99,10 @@ const getThirdLinks = async (link, browser, selector) => {
       mosaic,
       imgs,
       date,
-      magnet
+      magnet,
+      section
     }
-  }, selector)
+  }, selector, section)
   await page.close()
   return movie
 }
