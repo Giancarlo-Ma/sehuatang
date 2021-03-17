@@ -30,7 +30,7 @@ const crawlerPath = path.join(__dirname, 'task', 'crawler')
 
     app.use(express.json())
     // Define Routes
-    app.use('/api/movie', require('./routes/movie'));
+    app.use('/api/movies', require('./routes/movie'));
 
     const PORT = process.env.PORT || 3000
     app.listen(PORT, () => console.log('server started'));
