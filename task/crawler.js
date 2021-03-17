@@ -9,7 +9,8 @@ const scrollToBottom = require("scroll-to-bottomjs");
     args: ['--no-sandbox']
   });
   const page = await browser.newPage();
-  const filterList = ['每日合集', '国产原创']
+  page.setDefaultTimeout(0);
+  const filterList = ['每日合集', '高清中文字幕']
 
   /**
    * [ { href: 'https://sehuatang.org/forum-106-1.html', title: '每日合集' } ]
@@ -24,7 +25,8 @@ const scrollToBottom = require("scroll-to-bottomjs");
     }]
    */
   const secondLinks = await Promise.all(firstLinks.map(l => getSecondLinks(website, l, browser, '[id^="normalthread"]', 1)))
-  const thirdLinks = await Promise.all(secondLinks.flat().map(item => getThirdLinks(item.href, browser, '[id^="postmessage_"]', item.section)))
+  const thirdLinks = await Promise.all(secondLinks.flat().map(item => getThirdLinks(item.href, browser, '[id^="postmessage_"]', item.section)));
+  
   process.send({ type: 'secondLinks', data: thirdLinks })
   await browser.close();
 })()
@@ -70,6 +72,7 @@ const getSecondLinks = async (website, link, browser, selector, pageCount) => {
 
 const getThirdLinks = async (link, browser, selector, section) => {
   const page = await browser.newPage();
+  page.setDefaultTimeout(0);
   await page.goto(link, { "waitUntil": "networkidle0" })
   await page.evaluate(scrollToBottom);
   await page.waitForFunction(imagesHaveLoaded, {timeout: 0});
@@ -98,7 +101,7 @@ const getThirdLinks = async (link, browser, selector, section) => {
       size,
       mosaic,
       imgs,
-      date,
+      // date,
       magnet,
       section
     }

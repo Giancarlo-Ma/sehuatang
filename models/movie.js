@@ -8,7 +8,6 @@ const movieSchema = new Schema({
 	imgs: [String],
 	magnet: String,
 	size: String,
-  date: Date,
   section: String
 });
 
