@@ -2,18 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const movieSchema = new Schema({
-	title: {
-		type: String
-	},
+	title: String,
 	actor: String,
 	mosaic: Boolean,
-	image: [String],
+	imgs: [String],
 	magnet: String,
 	size: String,
-	date: {
-		type: Date,
-		default: Date.now
-	}
+  date: Date,
 });
 
-module.exports = mongoose.model('movie', MovieSchema);
+module.exports = mongoose.model('movie', movieSchema);
