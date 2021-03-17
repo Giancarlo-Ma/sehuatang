@@ -72,7 +72,7 @@ const getThirdLinks = async (link, browser, selector, section) => {
   const page = await browser.newPage();
   await page.goto(link, { "waitUntil": "networkidle0" })
   await page.evaluate(scrollToBottom);
-  await page.waitForFunction(imagesHaveLoaded);
+  await page.waitForFunction(imagesHaveLoaded, {timeout: 0});
   // await autoScroll(page);
   // [id^="postmessage_"]第一个post
   await page.waitForSelector(selector);
