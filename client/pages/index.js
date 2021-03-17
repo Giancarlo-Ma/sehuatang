@@ -22,6 +22,7 @@ export default function Home({movies}) {
           {movies.map(({ title, _id }) => (
             <a href="#" className="card" key={_id}>
               <h3>{title}</h3>
+              
             </a>
           ))}
 
