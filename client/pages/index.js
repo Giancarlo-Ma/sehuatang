@@ -22,7 +22,7 @@ export default function Home({movies, page, section}) {
               {imgs.map(img => (
                 <Image
                   src={img}
-                  height={1000} // Desired size with correct aspect ratio
+                  height={700} // Desired size with correct aspect ratio
                   width={1000} // Desired size with correct aspect ratio
                   key={img}
                   layout={'responsive'}
