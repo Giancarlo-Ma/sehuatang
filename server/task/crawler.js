@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
 const process = require('process');
-const Movie = require('../models/movie');
 const scrollToBottom = require("scroll-to-bottomjs");
 
 (async () => {
@@ -80,9 +79,13 @@ const getThirdLinks = async (link, browser, selector, section) => {
   // [id^="postmessage_"]第一个post
   await page.waitForSelector(selector);
   const movie = await page.evaluate((selector, section) => {
-    const findItem = (lineArr, item) => lineArr.find(line => line.startsWith(item)).slice(item.length)
+    const findItem = (lineArr, item) => {
+      const find = lineArr.find(line => line.startsWith(item))
+      if(!find) return ''
+      return find.slice(item.length)
+    }
     const post = document.querySelector(selector)
-    const postContent = post.textContent
+    const postContent = post ? post.textContent : ''
     // https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-elements
     // const title = document.querySelector('h1').textContent.replace(/(?:\r\n|\r|\n)/g, '')
     const lineArr = postContent.split('\n')
@@ -91,10 +94,10 @@ const getThirdLinks = async (link, browser, selector, section) => {
     const size = findItem(lineArr, '【影片大小】：')
     const mosaic = findItem(lineArr, '【是否有码】：') === '有码'
     const imgs = Array.from(post.querySelectorAll('img[id^="aimg"]')).map(item => item.getAttribute('src'))
-    const date = document.querySelector('[id^="authorposton"] span') ?
-      new Date(document.querySelector('[id^="authorposton"] span').getAttribute('title')) :
-      findItem([document.querySelector('[id^="authorposton"]').textContent], '发表于 ');
-    const magnet = document.querySelector('.blockcode li').textContent
+    // const date = document.querySelector('[id^="authorposton"] span') ?
+    //   new Date(document.querySelector('[id^="authorposton"] span').getAttribute('title')) :
+    //   findItem([document.querySelector('[id^="authorposton"]').textContent], '发表于 ');
+    const magnet = document.querySelector('.blockcode li') ? document.querySelector('.blockcode li').textContent : ''
     return {
       title,
       actor,
