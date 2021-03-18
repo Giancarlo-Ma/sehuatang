@@ -1,7 +1,9 @@
 import Head from 'next/head'
+import Image from 'next/image'
+import Router from 'next/router'
 import { getMovies } from '../lib/movies'
 
-export default function Home({movies}) {
+export default function Home({movies, page, section}) {
   return (
     <div className="container">
       <Head>
@@ -10,39 +12,36 @@ export default function Home({movies}) {
       </Head>
 
       <main>
-        <h1 className="title">
-          Learning <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
 
         <div className="grid">
-          {movies.map(({ title, _id }) => (
+          {movies.map(({ title, _id, imgs, actor, mosaic, magnet }) => (
             <a href="#" className="card" key={_id}>
               <h3>{title}</h3>
-              
+              <p>演员：{actor}</p>
+              <p>有码：{mosaic ? "有码" : "无码"}</p>
+              {imgs.map(img => (
+                <Image
+                  src={img}
+                  height={1000} // Desired size with correct aspect ratio
+                  width={1000} // Desired size with correct aspect ratio
+                  key={img}
+                  layout={'responsive'}
+                />
+              ))}
+              <p>magnet：{magnet}</p>
             </a>
           ))}
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        </div>
+        <div>
+          <button
+          onClick={() => Router.push(`/?page=${parseInt(page) - 1}${section? '&section=' + section : ''}`)}
+          disabled={page <= 1}
+        >
+          上一页
+        </button>
+        <button onClick={() => Router.push(`/?page=${parseInt(page) + 1}${section? '&section=' + section : ''}`)}>
+          下一页
+        </button>
         </div>
       </main>
 
@@ -142,13 +141,13 @@ export default function Home({movies}) {
           justify-content: center;
           flex-wrap: wrap;
 
-          max-width: 800px;
+          max-width: 1000px;
           margin-top: 3rem;
         }
 
         .card {
           margin: 1rem;
-          flex-basis: 45%;
+          flex-basis: 100%;
           padding: 1.5rem;
           text-align: left;
           color: inherit;
@@ -206,11 +205,13 @@ export default function Home({movies}) {
   )
 }
 
-export async function getStaticProps() {
-  const data = await getMovies()
+export async function getServerSideProps({query: { page = 1, section = ''}}) {
+  const data = await getMovies(page, section)
   return {
     props: {
-      movies: data.movies
+      movies: data.movies,
+      page,
+      section
     }
   }
 }

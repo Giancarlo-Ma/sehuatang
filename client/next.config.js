@@ -1,10 +1,8 @@
 module.exports = {
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:3000/:path*' // Proxy to Backend
-      }
-    ]
-  }
+  images: {
+    domains: [
+      'www.qwewqa3w.com',
+      'jp.netcdn.space'
+    ],
+  },
 }

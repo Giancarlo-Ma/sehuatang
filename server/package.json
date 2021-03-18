@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +24,8 @@
     "mongoose": "^5.12.0",
     "puppeteer": "^8.0.0",
     "scroll-to-bottomjs": "^1.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }

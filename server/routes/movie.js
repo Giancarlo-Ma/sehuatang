@@ -4,14 +4,15 @@ const Movie = require('../models/movie')
 
 router.get('/', async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
-    const movies = await Movie.find()
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .exec();
+    const { page = 1, limit = 10, section } = req.query;
+    let movies = await Movie.find(section ? {section} : {})
+    const count = movies.length
+    movies = await Movie.find(section ? {section} : {})
+              .limit(limit * 1)
+              .skip((page - 1) * limit)
+              .sort({date: -1})
+              .exec();
 
-    // get total documents in the Posts collection 
-    const count = await Movie.countDocuments();
 
     // return response with posts, total pages, and current page
     res.json({

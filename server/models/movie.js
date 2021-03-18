@@ -8,7 +8,11 @@ const movieSchema = new Schema({
 	imgs: [String],
 	magnet: String,
 	size: String,
-  section: String
+  section: String,
+  date: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model('movie', movieSchema);

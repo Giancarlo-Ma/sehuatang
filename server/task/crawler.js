@@ -10,7 +10,7 @@ const scrollToBottom = require("scroll-to-bottomjs");
   });
   const page = await browser.newPage();
   page.setDefaultTimeout(0);
-  const filterList = ['每日合集', '高清中文字幕']
+  const filterList = ['高清中文字幕', '欧美无码', '国产原创']
 
   /**
    * [ { href: 'https://sehuatang.org/forum-106-1.html', title: '每日合集' } ]
