@@ -9,7 +9,7 @@ const scrollToBottom = require("scroll-to-bottomjs");
   });
   const page = await browser.newPage();
   page.setDefaultTimeout(0);
-  const filterList = ['高清中文字幕', '欧美无码', '国产原创']
+  const filterList = ['国产原创']
 
   /**
    * [ { href: 'https://sehuatang.org/forum-106-1.html', title: '每日合集' } ]
@@ -23,7 +23,7 @@ const scrollToBottom = require("scroll-to-bottomjs");
       title: '91国产合集'
     }]
    */
-  const secondLinks = await Promise.all(firstLinks.map(l => getSecondLinks(website, l, browser, '[id^="normalthread"]', 1)))
+  const secondLinks = await Promise.all(firstLinks.map(l => getSecondLinks(website, l, browser, '[id^="normalthread"]', 3)))
   const thirdLinks = await Promise.all(secondLinks.flat().map(item => getThirdLinks(item.href, browser, '[id^="postmessage_"]', item.section)));
   
   process.send({ type: 'secondLinks', data: thirdLinks })

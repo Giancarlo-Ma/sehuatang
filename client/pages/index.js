@@ -26,6 +26,7 @@ export default function Home({movies, page, section}) {
                   width={1000} // Desired size with correct aspect ratio
                   key={img}
                   layout={'responsive'}
+                  loading={'eager'}
                 />
               ))}
               <p>magnet：{magnet}</p>

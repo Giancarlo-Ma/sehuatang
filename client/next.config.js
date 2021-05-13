@@ -2,7 +2,8 @@ module.exports = {
   images: {
     domains: [
       'www.qwewqa3w.com',
-      'jp.netcdn.space'
+      'jp.netcdn.space',
+      'www.tucahuand.com'
     ],
   },
 }
